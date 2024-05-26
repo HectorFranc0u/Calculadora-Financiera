@@ -38,6 +38,12 @@ def show_main_view():
 
     button2 = tk.Button(window, text="valor equivalente", command=show_VE_view)
     button2.pack(pady=10)
+    
+    button3 = tk.Button(window, text="tasa efectiva", command=show_TE_view)
+    button3.pack(pady=10)
+
+    button4 = tk.Button(window, text="tasa nominal", command=show_TN_view)
+    button4.pack(pady=10)
 
 
 def show_IC_view():
@@ -88,6 +94,692 @@ def show_VE_view():
     label.pack(pady=10)
     
     # Crear un botón para regresar a la vista principal
+    back_button = tk.Button(window, text="Regresar", command=show_main_view)
+    back_button.pack(pady=10)
+
+def show_TE_view():
+    for widget in window.winfo_children():
+        widget.destroy()
+        
+    def on_button_click():
+        tiempo = float(entry1.get())
+        tasa = float(entry2.get())
+
+        periodo = combobox.get()
+        tipotasa = combobox1.get()
+
+        if tipotasa == "mensual":
+            if periodo == "mensual":
+                n = tiempo
+                i = tasa / 100 
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo * 2
+                i = tasa / 100 * 2
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo * 3
+                i = tasa / 100 * 3
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo * 4
+                i = tasa / 100 * 4
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo * 6
+                i = tasa / 100 * 6
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo * 12
+                i = tasa / 100 * 12
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                
+        elif tipotasa == "bimestral":
+            if periodo == "mensual":
+                n = tiempo / 2
+                i = tasa / 100 / 2
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo
+                i = tasa / 100
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo * 1.5
+                i = tasa / 100 * 1.5
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo * 2
+                i = tasa / 100 * 2
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo * 3
+                i = tasa / 100 * 3
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo * 6
+                i = tasa / 100 * 6
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "trimestral":
+            if periodo == "mensual":
+                n = tiempo / 3
+                i = tasa / 100 / 3
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo / 1.5
+                i = tasa / 100 / 1.5
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo 
+                i = tasa / 100 
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo * 0.75
+                i = tasa / 100 * 0.75
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo * 2
+                i = tasa / 100 * 2
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo * 4
+                i = tasa / 100 * 4
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "cuatrimestral":
+            if periodo == "mensual":
+                n = tiempo / 4
+                i = tasa / 100 / 4
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo / 2
+                i = tasa / 100 / 2
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo / 0.75
+                i = tasa / 100 / 0.75
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo 
+                i = tasa / 100 
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo * 1.5
+                i = tasa / 100 * 1.5
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo * 3
+                i = tasa / 100 * 3
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "semestral":
+            if periodo == "mensual":
+                n = tiempo / 6
+                i = tasa / 100 / 6
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo / 3
+                i = tasa / 100 / 3
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo / 2
+                i = tasa / 100 / 2
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo / 1.5
+                i = tasa / 100 / 1.5
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo 
+                i = tasa / 100 
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo * 2
+                i = tasa / 100 * 2
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "anual":
+            if periodo == "mensual":
+                n = tiempo / 12
+                i = tasa / 100 / 12
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo / 6
+                i = tasa / 100 / 6
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo / 4
+                i = tasa / 100 / 4
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo / 3
+                i = tasa / 100 / 3
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo / 2
+                i = tasa / 100 / 2 
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo 
+                i = tasa / 100 
+                e = (((1+(i/n))**n)-1) * 100
+                eround = round(e, 2)
+                resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                
+    
+    label = tk.Label(window, text="tasa de interes efectiva")
+    label.pack(pady=10)
+
+    fila1 = tk.Frame(window)
+    fila2 = tk.Frame(window)
+    fila3 = tk.Frame(window)
+
+    fila1.pack()
+    fila2.pack()
+    fila3.pack()
+
+    #declarar el Monto
+    label1 = tk.Label(fila1, text="tiempo (n):")
+    label1.pack(side=tk.LEFT, pady=5)
+    entry1 = tk.Entry(fila1, validate='key', validatecommand=vcmd)
+    entry1.pack(side=tk.LEFT, pady=5)
+    
+    #declarar el tiempo
+    label2 = tk.Label(fila2, text="tasa (i):")
+    label2.pack(side=tk.LEFT, pady=5)
+    entry2 = tk.Entry(fila2, validate='key', validatecommand=vcmd)
+    entry2.pack(side=tk.LEFT, pady=5)
+
+    label3 = tk.Label(fila3, text="periodo: ")
+    label3.pack(side=tk.LEFT, pady=5)
+    
+    # Crear el combobox con múltiples opciones
+    opciones = ["mensual", "bimestral", "trimestral", "cuatrimestral", "semestral", "anual"]
+
+    combobox = ttk.Combobox(fila3, values=opciones, state="readonly")
+    combobox.pack(pady=10, padx=5)
+    
+    combobox1 = ttk.Combobox(fila2, values=opciones, state="readonly")
+    combobox1.pack(pady=10, padx=5)
+    
+
+    # Crear y colocar el botón
+    button = tk.Button(window, text="Enviar", command=on_button_click)
+    button.pack(pady=10)
+
+    back_button = tk.Button(window, text="Regresar", command=show_main_view)
+    back_button.pack(pady=10)
+
+def show_TN_view():
+    for widget in window.winfo_children():
+        widget.destroy()
+        
+    def on_button_click():
+        tiempo = float(entry1.get())
+        tasa = float(entry2.get())
+
+        periodo = combobox.get()
+        tipotasa = combobox1.get()
+
+        if tipotasa == "mensual":
+            if periodo == "mensual":
+                n = tiempo
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo / 2
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo / 3
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo / 4
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo / 6
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo / 12
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                
+        elif tipotasa == "bimestral":
+            if periodo == "mensual":
+                n = tiempo * 2
+                i = tasa / 100
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo
+                i = tasa / 100
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo / 1.5
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo / 2
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo / 3
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo / 6
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "trimestral":
+            if periodo == "mensual":
+                n = tiempo * 3
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo * 1.5
+                i = tasa / 100
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo 
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo / 0.75
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo / 2
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo / 4
+                i = tasa / 100
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "cuatrimestral":
+            if periodo == "mensual":
+                n = tiempo * 4
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo * 2
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo * 0.75
+                i = tasa / 100
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo 
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo / 1.5
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo / 3
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "semestral":
+            if periodo == "mensual":
+                n = tiempo * 6
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo * 3
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo * 2
+                i = tasa 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo * 1.5
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo 
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo / 2
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+        elif tipotasa == "anual":
+            if periodo == "mensual":
+                n = tiempo * 12
+                i = tasa / 100
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+            elif periodo == "bimestral":
+                n = tiempo * 6
+                i = tasa / 100
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "trimestral":
+                n = tiempo * 4
+                i = tasa /100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "cuatrimestral":
+                n = tiempo * 3
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                return tipotasa
+            elif periodo == "semestral":
+                n = tiempo * 2
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+
+            elif periodo == "anual":
+                n = tiempo 
+                i = tasa / 100 
+                j = (n*(((1+i)**(1/n))-1)) * 100
+                jround = round(j, 2)
+                resultado = "la tasa de interes nominal es: " + str(jround) + "%"
+                messagebox.showinfo("resultado", resultado)
+                
+    
+    label = tk.Label(window, text="tasa de interes efectiva")
+    label.pack(pady=10)
+
+    fila1 = tk.Frame(window)
+    fila2 = tk.Frame(window)
+    fila3 = tk.Frame(window)
+
+    fila1.pack()
+    fila2.pack()
+    fila3.pack()
+
+    #declarar el Monto
+    label1 = tk.Label(fila1, text="tiempo (n):")
+    label1.pack(side=tk.LEFT, pady=5)
+    entry1 = tk.Entry(fila1, validate='key', validatecommand=vcmd)
+    entry1.pack(side=tk.LEFT, pady=5)
+    
+    #declarar el tiempo
+    label2 = tk.Label(fila2, text="tasa (i):")
+    label2.pack(side=tk.LEFT, pady=5)
+    entry2 = tk.Entry(fila2, validate='key', validatecommand=vcmd)
+    entry2.pack(side=tk.LEFT, pady=5)
+
+    label3 = tk.Label(fila3, text="periodo: ")
+    label3.pack(side=tk.LEFT, pady=5)
+    
+    # Crear el combobox con múltiples opciones
+    opciones = ["mensual", "bimestral", "trimestral", "cuatrimestral", "semestral", "anual"]
+
+    combobox = ttk.Combobox(fila3, values=opciones, state="readonly")
+    combobox.pack(pady=10, padx=5)
+    
+    combobox1 = ttk.Combobox(fila2, values=opciones, state="readonly")
+    combobox1.pack(pady=10, padx=5)
+    
+
+    # Crear y colocar el botón
+    button = tk.Button(window, text="Enviar", command=on_button_click)
+    button.pack(pady=10)
+
     back_button = tk.Button(window, text="Regresar", command=show_main_view)
     back_button.pack(pady=10)
 
@@ -180,7 +872,7 @@ def show_Capital_view():
     rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1")
     rb1.pack(side=tk.LEFT)
 
-    rb2 = tk.Radiobutton(fila5, text="bimensual", variable=opcion, value="2")
+    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2")
     rb2.pack(side=tk.LEFT)
 
     rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3")
@@ -291,7 +983,7 @@ def show_Monto_view():
     rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1")
     rb1.pack(side=tk.LEFT)
 
-    rb2 = tk.Radiobutton(fila5, text="bimensual", variable=opcion, value="2")
+    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2")
     rb2.pack(side=tk.LEFT)
 
     rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3")
@@ -414,7 +1106,7 @@ def show_Tiempo_view():
     rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1")
     rb1.pack(side=tk.LEFT)
 
-    rb2 = tk.Radiobutton(fila5, text="bimensual", variable=opcion, value="2")
+    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2")
     rb2.pack(side=tk.LEFT)
 
     rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3")
@@ -453,7 +1145,7 @@ def show_Tasa_view():
         elif opcion.get() == "2":
             i = (((M/C) ** (1/n)) - 1) * 100
             tasa = round(i, 2)
-            resultado = "la tasa de interes es de: " + str(tasa) + "%" + " bimensual."
+            resultado = "la tasa de interes es de: " + str(tasa) + "%" + " bimestral."
             messagebox.showinfo("resultado", resultado)
         elif opcion.get() == "3":
             i = (((M/C) ** (1/n)) - 1) * 100
@@ -519,7 +1211,7 @@ def show_Tasa_view():
     rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1")
     rb1.pack(side=tk.LEFT)
 
-    rb2 = tk.Radiobutton(fila5, text="bimensual", variable=opcion, value="2")
+    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2")
     rb2.pack(side=tk.LEFT)
 
     rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3")
