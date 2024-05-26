@@ -39,11 +39,6 @@ def show_main_view():
     button2 = tk.Button(window, text="valor equivalente", command=show_VE_view)
     button2.pack(pady=10)
 
-    button3 = tk.Button(window, text="tasa nominal", command=show_TN_view)
-    button3.pack(pady=10)
-
-    button4 = tk.Button(window, text="tasa efectiva", command=show_TE_view)
-    button4.pack(pady=10)
 
 def show_IC_view():
     # Limpiar el contenido de la ventana
@@ -83,21 +78,7 @@ def show_VE_view():
     back_button = tk.Button(window, text="Regresar", command=show_main_view)
     back_button.pack(pady=10)
 
-def show_TN_view():
-    # Limpiar el contenido de la ventana
-    for widget in window.winfo_children():
-        widget.destroy()
-    
-    # Crear una Label
-    label = tk.Label(window, text="Calculo de tasa nominal")
-    label.pack(pady=10)
-    
-    # Crear un botón para regresar a la vista principal
-    back_button = tk.Button(window, text="Regresar", command=show_main_view)
-    back_button.pack(pady=10)
 
-
-def show_TE_view():
     # Limpiar el contenido de la ventana
     for widget in window.winfo_children():
         widget.destroy()
@@ -109,7 +90,6 @@ def show_TE_view():
     # Crear un botón para regresar a la vista principal
     back_button = tk.Button(window, text="Regresar", command=show_main_view)
     back_button.pack(pady=10)
-
 
 def show_Capital_view():
     for widget in window.winfo_children():
@@ -566,7 +546,3 @@ show_main_view()
 
 # Iniciar el bucle de eventos
 window.mainloop()
-
-
-
-
