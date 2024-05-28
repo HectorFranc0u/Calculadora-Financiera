@@ -4,6 +4,34 @@ from tkinter import messagebox
 import locale
 import math
 
+class ToolTip:
+    def __init__(self, widget, text):
+        self.widget = widget
+        self.text = text
+        self.tooltip_window = None
+        self.widget.bind("<Enter>", self.show_tooltip)
+        self.widget.bind("<Leave>", self.hide_tooltip)
+
+    def show_tooltip(self, event):
+        if self.tooltip_window or not self.text:
+            return
+        x, y, _, _ = self.widget.bbox("insert")
+        x += self.widget.winfo_rootx() + 25
+        y += self.widget.winfo_rooty() + 25
+        self.tooltip_window = tw = tk.Toplevel(self.widget)
+        tw.wm_overrideredirect(True)
+        tw.wm_geometry(f"+{x}+{y}")
+        label = tk.Label(tw, text=self.text, justify='left',
+                         background="#ffffe0", relief='solid', borderwidth=1,
+                         font=("tahoma", "8", "normal"))
+        label.pack(ipadx=1)
+
+    def hide_tooltip(self, event):
+        tw = self.tooltip_window
+        self.tooltip_window = None
+        if tw:
+            tw.destroy()
+
 def validate_float(new_value):
     if new_value == "":
         return True
@@ -13,11 +41,10 @@ def validate_float(new_value):
         return True
     except ValueError:
         return False
-        
+
 # Crear la ventana principal
 window = tk.Tk()
-window.title("Aplicación de Ejemplo")
-window.geometry("500x300")
+window.title("Calculadora financiera")
 window.resizable(False, False)
 #validador de punto flotante
 vcmd = (window.register(validate_float), '%P')
@@ -35,9 +62,6 @@ def show_main_view():
     # Crear los botones
     button1 = tk.Button(window, text="interes compuesto", command=show_IC_view)
     button1.pack(pady=10)
-
-    button2 = tk.Button(window, text="valor equivalente", command=show_VE_view)
-    button2.pack(pady=10)
     
     button3 = tk.Button(window, text="tasa efectiva", command=show_TE_view)
     button3.pack(pady=10)
@@ -51,49 +75,23 @@ def show_IC_view():
     for widget in window.winfo_children():
         widget.destroy()
     
-    label = tk.Label(window, text="Calculo de interes compuesto")
+    label = tk.Label(window, text="Calculo de interes compuesto: seleccione el elemento que desea calcular.")
     label.pack(pady=10)
     
     # Crear un botón para regresar a la vista principal
 
-    next_button = tk.Button(window, text="Capital (C)", command=show_Capital_view)
+    next_button = tk.Button(window, text="Calcular Capital (C)", command=show_Capital_view)
     next_button.pack(pady=10)
 
-    next_button = tk.Button(window, text="Monto (M)", command=show_Monto_view)
+    next_button = tk.Button(window, text="Calcular Monto (M)", command=show_Monto_view)
     next_button.pack(pady=10)
 
-    next_button = tk.Button(window, text="Tiempo (n)", command=show_Tiempo_view)
+    next_button = tk.Button(window, text="Calcular Tiempo (n)", command=show_Tiempo_view)
     next_button.pack(pady=10)
 
-    next_button = tk.Button(window, text="Tasa de interes (i)", command=show_Tasa_view)
+    next_button = tk.Button(window, text="Calcular Tasa de interes (i)", command=show_Tasa_view)
     next_button.pack(pady=10)
     
-    back_button = tk.Button(window, text="Regresar", command=show_main_view)
-    back_button.pack(pady=10)
-
-def show_VE_view():
-    # Limpiar el contenido de la ventana
-    for widget in window.winfo_children():
-        widget.destroy()
-    
-    # Crear una Label
-    label = tk.Label(window, text="Calculo de valor equivalente")
-    label.pack(pady=10)
-    
-    # Crear un botón para regresar a la vista principal
-    back_button = tk.Button(window, text="Regresar", command=show_main_view)
-    back_button.pack(pady=10)
-
-
-    # Limpiar el contenido de la ventana
-    for widget in window.winfo_children():
-        widget.destroy()
-    
-    # Crear una Label
-    label = tk.Label(window, text="Calculo de tasa efectiva")
-    label.pack(pady=10)
-    
-    # Crear un botón para regresar a la vista principal
     back_button = tk.Button(window, text="Regresar", command=show_main_view)
     back_button.pack(pady=10)
 
@@ -396,9 +394,10 @@ def show_TE_view():
                 resultado = "la tasa de interes efectiva es: " + str(eround) + "%"
                 messagebox.showinfo("resultado", resultado)
                 
-    
-    label = tk.Label(window, text="tasa de interes efectiva")
-    label.pack(pady=10)
+    def actualizar_etiqueta(event):
+        seleccion = combobox1.get()
+        etiqueta_seleccion.config(text=seleccion)
+
 
     fila1 = tk.Frame(window)
     fila2 = tk.Frame(window)
@@ -413,6 +412,10 @@ def show_TE_view():
     label1.pack(side=tk.LEFT, pady=5)
     entry1 = tk.Entry(fila1, validate='key', validatecommand=vcmd)
     entry1.pack(side=tk.LEFT, pady=5)
+    
+    etiqueta_seleccion = tk.Label(fila1, text="")
+    etiqueta_seleccion.pack(pady=10)
+
     
     #declarar el tiempo
     label2 = tk.Label(fila2, text="tasa (i):")
@@ -431,6 +434,8 @@ def show_TE_view():
     
     combobox1 = ttk.Combobox(fila2, values=opciones, state="readonly")
     combobox1.pack(pady=10, padx=5)
+
+    combobox1.bind("<<ComboboxSelected>>", actualizar_etiqueta)
     
 
     # Crear y colocar el botón
@@ -439,6 +444,11 @@ def show_TE_view():
 
     back_button = tk.Button(window, text="Regresar", command=show_main_view)
     back_button.pack(pady=10)
+
+    
+    ToolTip(label2, "ingrese el porcentaje completo de la tasa a convertir (ejemplo: 2% = 2)")
+    
+    ToolTip(label1, "ingrese el periodo que se va a evaluar (ejemplo: 4 trimestres = 4)")
 
 def show_TN_view():
     for widget in window.winfo_children():
@@ -739,7 +749,10 @@ def show_TN_view():
                 resultado = "la tasa de interes nominal es: " + str(jround) + "%"
                 messagebox.showinfo("resultado", resultado)
                 
-    
+    def actualizar_etiqueta(event):
+        seleccion = combobox1.get()
+        etiqueta_seleccion.config(text=seleccion)
+
     label = tk.Label(window, text="tasa de interes efectiva")
     label.pack(pady=10)
 
@@ -756,6 +769,9 @@ def show_TN_view():
     label1.pack(side=tk.LEFT, pady=5)
     entry1 = tk.Entry(fila1, validate='key', validatecommand=vcmd)
     entry1.pack(side=tk.LEFT, pady=5)
+
+    etiqueta_seleccion = tk.Label(fila1, text="")
+    etiqueta_seleccion.pack(pady=10)
     
     #declarar el tiempo
     label2 = tk.Label(fila2, text="tasa (i):")
@@ -775,6 +791,7 @@ def show_TN_view():
     combobox1 = ttk.Combobox(fila2, values=opciones, state="readonly")
     combobox1.pack(pady=10, padx=5)
     
+    combobox1.bind("<<ComboboxSelected>>", actualizar_etiqueta)
 
     # Crear y colocar el botón
     button = tk.Button(window, text="Enviar", command=on_button_click)
@@ -783,11 +800,16 @@ def show_TN_view():
     back_button = tk.Button(window, text="Regresar", command=show_main_view)
     back_button.pack(pady=10)
 
+    ToolTip(label2, "ingrese el porcentaje completo de la tasa a convertir (ejemplo: 2% = 2)")
+    
+    ToolTip(label1, "ingrese el periodo que se va a evaluar (ejemplo: 4 trimestres = 4)")
+
 def show_Capital_view():
     for widget in window.winfo_children():
         widget.destroy()
         
     def on_button_click():
+
         M = float(entry1.get())
         n = float(entry2.get())
         tasa = float(entry3.get())
@@ -829,6 +851,22 @@ def show_Capital_view():
             resultado = "El Capital o valor actual obtenido con estos datos es: " + locale.currency(Capital, grouping=True)
             messagebox.showinfo("resultado", resultado)
     
+    def actualizar_etiqueta():
+        seleccion = opcion.get()
+        if seleccion == "1":
+            etiqueta_seleccion.config(text="meses")
+        elif seleccion == "2":
+            etiqueta_seleccion.config(text="bimeses")
+        elif seleccion == "3":
+            etiqueta_seleccion.config(text="trimestres")
+        elif seleccion == "4":
+            etiqueta_seleccion.config(text="cuatrimestres")
+        elif seleccion == "5":
+            etiqueta_seleccion.config(text="semestres")
+        elif seleccion == "6":
+            etiqueta_seleccion.config(text="años")
+
+        
     label = tk.Label(window, text="Encontrar capital")
     label.pack(pady=10)
 
@@ -863,28 +901,31 @@ def show_Capital_view():
     entry2 = tk.Entry(fila2, validate='key', validatecommand=vcmd)
     entry2.pack(side=tk.LEFT, pady=5)
    
+    etiqueta_seleccion = tk.Label(fila2, text="")
+    etiqueta_seleccion.pack(pady=10)
+
     label4 = tk.Label(fila4, text="periodo de capitalizacion:")
     label4.pack(pady=5)
     # Variable para almacenar la opción seleccionada
     opcion = tk.StringVar()
 
     # Crear los radiobuttons
-    rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1")
+    rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1", command=actualizar_etiqueta)
     rb1.pack(side=tk.LEFT)
 
-    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2")
+    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2", command=actualizar_etiqueta)
     rb2.pack(side=tk.LEFT)
 
-    rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3")
+    rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3", command=actualizar_etiqueta)
     rb3.pack(side=tk.LEFT)
 
-    rb4 = tk.Radiobutton(fila5, text="cuatrimestral", variable=opcion, value="4")
+    rb4 = tk.Radiobutton(fila5, text="cuatrimestral", variable=opcion, value="4", command=actualizar_etiqueta)
     rb4.pack(side=tk.LEFT)
 
-    rb5 = tk.Radiobutton(fila5, text="semestral", variable=opcion, value="5")
+    rb5 = tk.Radiobutton(fila5, text="semestral", variable=opcion, value="5", command=actualizar_etiqueta)
     rb5.pack(side=tk.LEFT)
     
-    rb6 = tk.Radiobutton(fila5, text="anual", variable=opcion, value="6")
+    rb6 = tk.Radiobutton(fila5, text="anual", variable=opcion, value="6", command=actualizar_etiqueta)
     rb6.pack(side=tk.LEFT)
     
     # Crear y colocar el botón
@@ -893,6 +934,10 @@ def show_Capital_view():
 
     back_button = tk.Button(window, text="Regresar", command=show_IC_view)
     back_button.pack(pady=10)
+
+    ToolTip(label3, "ingrese el porcentaje completo de la tasa a convertir (ejemplo: 2% = 2)")
+    ToolTip(label2, "ingrese el periodo que se va a evaluar (ejemplo: 4 trimestres = 4)")
+    ToolTip(label1, "ingrese el monto que o valor futuro que se tiene")
 
 def show_Monto_view():
     for widget in window.winfo_children():
@@ -940,7 +985,22 @@ def show_Monto_view():
             resultado = "El Monto o valor Futuro obtenido con estos datos es: " + locale.currency(Monto, grouping=True)
             messagebox.showinfo("resultado", resultado)
     
-    label = tk.Label(window, text="Encontrar capital")
+    def actualizar_etiqueta():
+        seleccion = opcion.get()
+        if seleccion == "1":
+            etiqueta_seleccion.config(text="meses")
+        elif seleccion == "2":
+            etiqueta_seleccion.config(text="bimeses")
+        elif seleccion == "3":
+            etiqueta_seleccion.config(text="trimestres")
+        elif seleccion == "4":
+            etiqueta_seleccion.config(text="cuatrimestres")
+        elif seleccion == "5":
+            etiqueta_seleccion.config(text="semestres")
+        elif seleccion == "6":
+            etiqueta_seleccion.config(text="años")
+
+    label = tk.Label(window, text="Encontrar Monto")
     label.pack(pady=10)
 
     fila1 = tk.Frame(window)
@@ -973,37 +1033,44 @@ def show_Monto_view():
     label2.pack(side=tk.LEFT, pady=5)
     entry2 = tk.Entry(fila2, validate='key', validatecommand=vcmd)
     entry2.pack(side=tk.LEFT, pady=5)
+    
+    etiqueta_seleccion = tk.Label(fila2, text="")
+    etiqueta_seleccion.pack(pady=10)
    
     label4 = tk.Label(fila4, text="periodo de capitalizacion:")
     label4.pack(pady=5)
     # Variable para almacenar la opción seleccionada
     opcion = tk.StringVar()
 
-    # Crear los radiobuttons
-    rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1")
+     # Crear los radiobuttons
+    rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1", command=actualizar_etiqueta)
     rb1.pack(side=tk.LEFT)
 
-    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2")
+    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2", command=actualizar_etiqueta)
     rb2.pack(side=tk.LEFT)
 
-    rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3")
+    rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3", command=actualizar_etiqueta)
     rb3.pack(side=tk.LEFT)
 
-    rb4 = tk.Radiobutton(fila5, text="cuatrimestral", variable=opcion, value="4")
+    rb4 = tk.Radiobutton(fila5, text="cuatrimestral", variable=opcion, value="4", command=actualizar_etiqueta)
     rb4.pack(side=tk.LEFT)
 
-    rb5 = tk.Radiobutton(fila5, text="semestral", variable=opcion, value="5")
+    rb5 = tk.Radiobutton(fila5, text="semestral", variable=opcion, value="5", command=actualizar_etiqueta)
     rb5.pack(side=tk.LEFT)
     
-    rb6 = tk.Radiobutton(fila5, text="anual", variable=opcion, value="6")
+    rb6 = tk.Radiobutton(fila5, text="anual", variable=opcion, value="6", command=actualizar_etiqueta)
     rb6.pack(side=tk.LEFT)
-    
+
     # Crear y colocar el botón
     button = tk.Button(window, text="Enviar", command=on_button_click)
     button.pack(pady=10)
 
     back_button = tk.Button(window, text="Regresar", command=show_IC_view)
     back_button.pack(pady=10)
+
+    ToolTip(label3, "ingrese el porcentaje completo de la tasa a convertir (ejemplo: 2% = 2)")
+    ToolTip(label2, "ingrese el periodo que se va a evaluar (ejemplo: 4 trimestres = 4)")
+    ToolTip(label1, "ingrese el capital o valor presente")
 
 def show_Tiempo_view():
     for widget in window.winfo_children():
@@ -1063,7 +1130,7 @@ def show_Tiempo_view():
             resultado = "El tiempo calculado para esta operacion es: " + str(tiempo) + " años."
             messagebox.showinfo("resultado", resultado)
     
-    label = tk.Label(window, text="Encontrar capital")
+    label = tk.Label(window, text="Encontrar Tiempo")
     label.pack(pady=10)
 
     fila1 = tk.Frame(window)
@@ -1128,6 +1195,10 @@ def show_Tiempo_view():
     back_button = tk.Button(window, text="Regresar", command=show_IC_view)
     back_button.pack(pady=10)
 
+    ToolTip(label3, "ingrese el porcentaje completo de la tasa a convertir (ejemplo: 2% = 2)")
+    ToolTip(label2, "ingrese el monto que o valor futuro")
+    ToolTip(label1, "ingrese el capital o valor presente")
+
 def show_Tasa_view():
     for widget in window.winfo_children():
         widget.destroy()
@@ -1168,7 +1239,23 @@ def show_Tasa_view():
             resultado = "la tasa de interes es de: " + str(tasa) + "%" + " anual."
             messagebox.showinfo("resultado", resultado)
     
-    label = tk.Label(window, text="Encontrar capital")
+    def actualizar_etiqueta():
+        seleccion = opcion.get()
+        if seleccion == "1":
+            etiqueta_seleccion.config(text="meses")
+        elif seleccion == "2":
+            etiqueta_seleccion.config(text="bimeses")
+        elif seleccion == "3":
+            etiqueta_seleccion.config(text="trimestres")
+        elif seleccion == "4":
+            etiqueta_seleccion.config(text="cuatrimestres")
+        elif seleccion == "5":
+            etiqueta_seleccion.config(text="semestres")
+        elif seleccion == "6":
+            etiqueta_seleccion.config(text="años")
+
+
+    label = tk.Label(window, text="Encontrar Tasa de interes")
     label.pack(pady=10)
 
     fila1 = tk.Frame(window)
@@ -1195,12 +1282,16 @@ def show_Tasa_view():
     entry3 = tk.Entry(fila3, validate='key', validatecommand=vcmd)
     entry3.pack(side=tk.LEFT, pady=5)
 
+    etiqueta_seleccion = tk.Label(fila3, text="")
+    etiqueta_seleccion.pack(pady=10)
     
     #declarar el tiempo
     label2 = tk.Label(fila2, text="Monto (M):")
     label2.pack(side=tk.LEFT, pady=5)
     entry2 = tk.Entry(fila2, validate='key', validatecommand=vcmd)
     entry2.pack(side=tk.LEFT, pady=5)
+
+    
    
     label4 = tk.Label(fila4, text="periodo de capitalizacion:")
     label4.pack(pady=5)
@@ -1208,22 +1299,22 @@ def show_Tasa_view():
     opcion = tk.StringVar()
 
     # Crear los radiobuttons
-    rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1")
+    rb1 = tk.Radiobutton(fila5, text="mensual", variable=opcion, value="1", command=actualizar_etiqueta)
     rb1.pack(side=tk.LEFT)
 
-    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2")
+    rb2 = tk.Radiobutton(fila5, text="bimestral", variable=opcion, value="2", command=actualizar_etiqueta)
     rb2.pack(side=tk.LEFT)
 
-    rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3")
+    rb3 = tk.Radiobutton(fila5, text="trimestral", variable=opcion, value="3", command=actualizar_etiqueta)
     rb3.pack(side=tk.LEFT)
 
-    rb4 = tk.Radiobutton(fila5, text="cuatrimestral", variable=opcion, value="4")
+    rb4 = tk.Radiobutton(fila5, text="cuatrimestral", variable=opcion, value="4", command=actualizar_etiqueta)
     rb4.pack(side=tk.LEFT)
 
-    rb5 = tk.Radiobutton(fila5, text="semestral", variable=opcion, value="5")
+    rb5 = tk.Radiobutton(fila5, text="semestral", variable=opcion, value="5", command=actualizar_etiqueta)
     rb5.pack(side=tk.LEFT)
     
-    rb6 = tk.Radiobutton(fila5, text="anual", variable=opcion, value="6")
+    rb6 = tk.Radiobutton(fila5, text="anual", variable=opcion, value="6", command=actualizar_etiqueta)
     rb6.pack(side=tk.LEFT)
     
     # Crear y colocar el botón
@@ -1232,6 +1323,10 @@ def show_Tasa_view():
 
     back_button = tk.Button(window, text="Regresar", command=show_IC_view)
     back_button.pack(pady=10)
+
+    ToolTip(label3, "ingrese el periodo que se va a evaluar (ejemplo: 4 trimestres = 4)")
+    ToolTip(label2, "ingrese el monto que o valor futuro")
+    ToolTip(label1, "ingrese el capital o valor presente")
 
 # Mostrar la vista principal al inicio
 show_main_view()
